@@ -3,6 +3,23 @@ import unittest
 
 class testLife(unittest.TestCase):
 
+    def normalise_coords(self, coords):
+        """
+        Takes a set of coordinates and if needed, shifts them to be all positive.
+        Used to make it easier to compare sets.
+        """
+        if not len(coords):
+            return set()
+
+        rows = sorted([x[0] for x in coords])
+        columns = sorted([x[1] for x in coords])
+        row_shift = rows[0] * -1 if rows[0] < 0 else 0
+        column_shift = columns[0] * -1 if columns[0] < 0 else 0
+        new_coords = set()
+        for cell in coords:
+            new_coords.add((cell[0]+row_shift, cell[1]+column_shift))
+        return new_coords
+
     def grid_to_coords(self, grid):
         """
         Converts a 2D list to a set of coordinates.
@@ -12,13 +29,12 @@ class testLife(unittest.TestCase):
             for j in range(0, len(grid[i])):
               if grid[i][j]:
                   coords.add((i, j))
-
-        return coords
+        return self.normalise_coords(coords)
 
     def create_evolve_assert(self, initial_state, final_state):
         testLife = Life(self.grid_to_coords(initial_state))
         testLife.evolve()
-        self.assertEqual(self.grid_to_coords(final_state), testLife.state)
+        self.assertEqual(self.grid_to_coords(final_state), self.normalise_coords(testLife.state))
 
     def test_no_interaction(self):
         self.create_evolve_assert([
@@ -53,8 +69,9 @@ class testLife(unittest.TestCase):
             [1, 1, 1],
             [1, 1, 0]
         ], [
+            [0, 1, 0],
             [1, 0, 1],
-            [1, 0, 0]
+            [1, 0, 1]
         ])
 
     def test_survival(self):
@@ -79,4 +96,16 @@ class testLife(unittest.TestCase):
         ], [
             [1, 1],
             [1, 1]
+        ])
+
+    def test_grid_expansion(self):
+        """
+        Tests that the grid expands if a new cell is to be added.
+        """
+        self.create_evolve_assert([
+            [1, 1, 1]
+        ], [
+            [0, 1, 0],
+            [0, 1, 0],
+            [0, 1, 0]
         ])
