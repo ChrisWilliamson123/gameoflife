@@ -24,6 +24,6 @@ class Life(object):
             # Get the intersection of the current state and the neighbours
             # This gives us the coords of the cells alive neighbours
             alive_neighbours = set(neighbours & self.state)
-            if len(alive_neighbours) >= 2:
+            if len(alive_neighbours) == 2 or len(alive_neighbours) == 3:
                 next_state.add(cell)
         self.state = next_state

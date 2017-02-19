@@ -15,29 +15,44 @@ class testLife(unittest.TestCase):
 
         return coords
 
-    def test_no_interaction(self):
-        emptyState = [
-            [0,0,0],
-            [0,0,0],
-            [0,0,0]
-        ]
-        testLife = Life(self.grid_to_coords(emptyState))
+    def create_evolve_assert(self, initial_state, final_state):
+        testLife = Life(self.grid_to_coords(initial_state))
         testLife.evolve()
-        self.assertEqual(set(), testLife.state)
+        self.assertEqual(self.grid_to_coords(final_state), testLife.state)
+
+    def test_no_interaction(self):
+        self.create_evolve_assert([
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0]
+        ], [
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0]
+        ])
 
     def test_cell_death(self):
         """
         Tests that a cell dies if it has less than two neighbours.
         """
-        starting_state = [
+        self.create_evolve_assert([
             [1, 0, 1],
             [0, 1, 1],
             [0, 0, 0]
-        ]
-        testLife = Life(self.grid_to_coords(starting_state))
-        testLife.evolve()
-        self.assertEqual(self.grid_to_coords([
+        ], [
             [0, 0, 1],
             [0, 1, 1],
             [0, 0, 0]
-        ]), testLife.state)
+        ])
+
+    def test_death_via_abundance(self):
+        """
+        Tests that a cell dies if it has more than 3 neighbours.
+        """
+        self.create_evolve_assert([
+            [1, 1, 1],
+            [1, 1, 0]
+        ], [
+            [1, 0, 1],
+            [1, 0, 0]
+        ])
