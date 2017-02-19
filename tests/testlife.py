@@ -68,3 +68,15 @@ class testLife(unittest.TestCase):
             [1, 1],
             [1, 1]
         ])
+
+    def test_creation(self):
+        """
+        Tests that a cell comes to life if it has three neighbours.
+        """
+        self.create_evolve_assert([
+            [0, 1],
+            [1, 1]
+        ], [
+            [1, 1],
+            [1, 1]
+        ])

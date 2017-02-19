@@ -26,4 +26,9 @@ class Life(object):
             alive_neighbours = set(neighbours & self.state)
             if len(alive_neighbours) == 2 or len(alive_neighbours) == 3:
                 next_state.add(cell)
+
+            for n_cell in neighbours:
+                n_cell_alive_neighbours = set(self.neighbours(n_cell) & self.state)
+                if len(n_cell_alive_neighbours) == 3:
+                    next_state.add(n_cell)
         self.state = next_state
