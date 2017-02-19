@@ -31,9 +31,10 @@ class testLife(unittest.TestCase):
                   coords.add((i, j))
         return self.normalise_coords(coords)
 
-    def create_evolve_assert(self, initial_state, final_state):
+    def create_evolve_assert(self, initial_state, final_state, evolutions=1):
         testLife = Life(self.grid_to_coords(initial_state))
-        testLife.evolve()
+        for i in range(0, evolutions):
+            testLife.evolve()
         self.assertEqual(self.grid_to_coords(final_state), self.normalise_coords(testLife.state))
 
     def test_no_interaction(self):
@@ -109,3 +110,14 @@ class testLife(unittest.TestCase):
             [0, 1, 0],
             [0, 1, 0]
         ])
+
+    def test_two_iterations(self):
+        """
+        This is the example that we were given.
+        After two iterations, result should be the same as the input.
+        """
+        self.create_evolve_assert([
+            [1, 1, 1]
+        ], [
+            [1, 1, 1]
+        ], 2)
