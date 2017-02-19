@@ -56,3 +56,15 @@ class testLife(unittest.TestCase):
             [1, 0, 1],
             [1, 0, 0]
         ])
+
+    def test_survival(self):
+        """
+        Tests that a cell stays alive if it has 2 or 3 neighbours.
+        """
+        self.create_evolve_assert([
+            [1, 1],
+            [1, 1]
+        ], [
+            [1, 1],
+            [1, 1]
+        ])
