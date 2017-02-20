@@ -32,6 +32,9 @@ class testLife(unittest.TestCase):
         return self.normalise_coords(coords)
 
     def create_evolve_assert(self, initial_state, final_state, evolutions=1):
+        """
+        Helper function for tests.
+        """
         testLife = Life(self.grid_to_coords(initial_state))
         for i in range(0, evolutions):
             testLife.evolve()
