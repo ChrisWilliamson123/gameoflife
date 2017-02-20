@@ -1,4 +1,3 @@
-import sys
 class Life(object):
 
     def __init__(self, state):

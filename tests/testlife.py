@@ -121,3 +121,17 @@ class testLife(unittest.TestCase):
         ], [
             [1, 1, 1]
         ], 2)
+
+    def test_three_iterations(self):
+        """
+        Tests three iterations
+        """
+        self.create_evolve_assert([
+            [0, 1, 0, 1],
+            [1, 1, 1, 1],
+            [1, 0, 0, 1]
+        ], [
+            [1, 1, 0, 1, 0],
+            [1, 0, 0, 1, 1],
+            [1, 0, 0, 1, 0]
+        ])
